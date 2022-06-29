@@ -13,17 +13,11 @@ public:
     int getDecimalValue(ListNode* head) {
         if(!head->next) return head->val;
         int result =0;
-        stack<int> s;
         while(head){
-            s.push(head->val);
+            result = result*2 + head->val;
             head = head ->next;
         }
-        int level =1;
-        while(!s.empty()){
-            int temp = s.top(); s.pop();
-            result += temp*level;
-            level *= 2;
-        }
+        
         return result;
     }
 };
