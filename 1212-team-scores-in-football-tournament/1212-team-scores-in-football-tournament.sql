@@ -1,14 +1,21 @@
 # Write your MySQL query statement below
-with cte1 as
- (Select host_team as team_id, case when host_goals>guest_goals then 3 when host_goals=guest_goals then 1 else 0 end as points from Matches
- 
-  union all
-  
-  select guest_team as team_id, case when host_goals>guest_goals then 0 when host_goals=guest_goals then 1 else 3 end as points from Matches
-  
- )
- , cte2 as( 
- Select team_id, sum(points) as points from cte1 group by 1
-     )
-     
-  SELECT t.team_id,t.team_name, coalesce(c.points,0) as num_points from Teams t left join cte2 c on t.team_id=c.team_id order by num_points desc,team_id
+select t.team_id 
+
+, 
+
+t.team_name , 
+
+sum(case when t.team_id = m.host_team AND m.guest_goals < m.host_goals then 3 
+   when t.team_id =m.guest_team AND m.host_goals < m.guest_goals then 3 
+    when t.team_id = m.guest_team  AND m.host_goals = m.guest_goals then 1 
+    
+    when t.team_id = m.host_team AND m.host_goals = m.guest_goals then 1 
+    else 0 end 
+   
+   ) AS num_points 
+   
+   from teams t 
+   left join matches m 
+   on m.host_team = t.team_id or m.guest_team = t.team_id 
+   group by 1,2
+   order by num_points desc , team_id asc 
