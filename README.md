@@ -1,2 +1,2 @@
-# DataStructure-Algo-C-
-Collection of LeetCode questions to ace the coding interview! - Created using [LeetHub](https://github.com/QasimWani/LeetHub)
+# DataStructure-Algo-C++/Python
+Collection of leetcode solved questions
